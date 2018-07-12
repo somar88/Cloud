@@ -1,3 +1,4 @@
+package ssa.cloudplatform.Main;
 
 public class Main {
 	
