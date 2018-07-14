@@ -20,24 +20,12 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		byte[] data = new byte[16];
-		byte number = 10;
+		byte[] data = new byte[32];
+		long  number = 0x12345678;
 		int pointer = 0;
 		
 		printBytes(data);
 		pointer = writeBytes(data, pointer, number);
-		printBytes(data);
-		pointer = writeBytes(data, pointer, number);
-		printBytes(data);
-		pointer = writeBytes(data, pointer, number);
-		printBytes(data);
-		pointer = writeBytes(data, pointer, number);
-		printBytes(data);
-		pointer = writeBytes(data, pointer, number);
-		printBytes(data);
-		pointer = writeBytes(data, pointer, number);
-		printBytes(data);
-		pointer = writeBytes(data, pointer, number);		
 		printBytes(data);
 		
 //		#Ep - 04

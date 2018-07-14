@@ -15,5 +15,22 @@ public class SerializationWriter {
 		dest[pointer++] = (byte) ((value >> 0) & 0xff);
 		return pointer;
 	}
+	public static int writeBytes(byte[] dest, int pointer, int value) {
+		dest[pointer++] = (byte) ((value >> 24) & 0xff);
+		dest[pointer++] = (byte) ((value >> 16) & 0xff);
+		dest[pointer++] = (byte) ((value >> 8) & 0xff);
+		dest[pointer++] = (byte) ((value >> 0) & 0xff);
+		return pointer;
+	}
+	public static int writeBytes(byte[] dest, int pointer, long value) {
+		dest[pointer++] = (byte) ((value >> 56) & 0xff); // 1_2 3_4 0000_0000 0000_0000  
+		dest[pointer++] = (byte) ((value >> 48) & 0xff);
+		dest[pointer++] = (byte) ((value >> 40) & 0xff);
+		dest[pointer++] = (byte) ((value >> 32) & 0xff);
+		dest[pointer++] = (byte) ((value >> 16) & 0xff);
+		dest[pointer++] = (byte) ((value >> 8) & 0xff);
+		dest[pointer++] = (byte) ((value >> 0) & 0xff);
+		return pointer;
+	}
 
 }
