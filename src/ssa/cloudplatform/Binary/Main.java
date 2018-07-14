@@ -1,4 +1,5 @@
 package ssa.cloudplatform.Binary;
+import static ssa.cloudplatform.Serialization.SerializationWriter.*;
 
 public class Main {
 
@@ -9,9 +10,37 @@ public class Main {
 	public static void printBin(int value) {
 		System.out.printf(Integer.toBinaryString(value) + "\n");
 	}
+	
+	public static void printBytes(byte[] data) {
+		for (int i = 0; i < data.length; i++) {
+			System.out.printf("0x%x ", data[i]);
+		}
+		System.out.println();
+	}
 
 	public static void main(String[] args) {
 
+		byte[] data = new byte[16];
+		byte number = 10;
+		int pointer = 0;
+		
+		printBytes(data);
+		pointer = writeBytes(data, pointer, number);
+		printBytes(data);
+		pointer = writeBytes(data, pointer, number);
+		printBytes(data);
+		pointer = writeBytes(data, pointer, number);
+		printBytes(data);
+		pointer = writeBytes(data, pointer, number);
+		printBytes(data);
+		pointer = writeBytes(data, pointer, number);
+		printBytes(data);
+		pointer = writeBytes(data, pointer, number);
+		printBytes(data);
+		pointer = writeBytes(data, pointer, number);		
+		printBytes(data);
+		
+//		#Ep - 04
 //		int color = 0xff00ff;
 //		int r = (color & 0xff0000) >> 16;
 //		int g = (color & 0x00ff00) >> 8;

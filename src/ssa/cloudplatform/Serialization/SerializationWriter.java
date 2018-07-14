@@ -1,10 +1,19 @@
 package ssa.cloudplatform.Serialization;
 
 public class SerializationWriter {
+
+	public static final byte[] HEADER = "SC".getBytes(); // Serlialized CVloud
+	public static final short VERSION = 0x0100; // big endian
+	public static final byte flags = 0x0;
 	
-	
-	public static void test() {
-		
+	public static int writeBytes(byte[] dest, int pointer, byte value) {
+		dest[pointer++] = value;
+		return pointer;
+	}
+	public static int writeBytes(byte[] dest, int pointer, short value) {
+		dest[pointer++] = (byte) ((value >> 8) & 0xff);
+		dest[pointer++] = (byte) ((value >> 0) & 0xff);
+		return pointer;
 	}
 
 }
