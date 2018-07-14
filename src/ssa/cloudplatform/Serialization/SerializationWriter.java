@@ -45,6 +45,10 @@ public class SerializationWriter {
 		long data = Double.doubleToLongBits(value);
 		return writeBytes(dest, pointer, data);
 	}
+	public static int writeBytes(byte[] dest, int pointer, boolean value) {
+		dest[pointer++] = (byte) (value ? 1 : 0);
+		return pointer;
+	}
 	
 	
 
