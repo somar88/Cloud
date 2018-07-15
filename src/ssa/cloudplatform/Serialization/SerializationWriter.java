@@ -4,22 +4,33 @@ public class SerializationWriter {
 
 	public static final byte[] HEADER = "SC".getBytes(); // Serlialized CVloud
 	public static final short VERSION = 0x0100; // big endian
-	public static final byte flags = 0x0;
-	
+//	public static final byte flags = 0x0;
+
+	public static int writeBytes(byte[] dest, int pointer, byte[] src) {
+
+		for (int i = 0; i < src.length; i++) {
+			dest[pointer++] = src[i];
+		}
+		return pointer;
+	}
+
 	public static int writeBytes(byte[] dest, int pointer, byte value) {
 		dest[pointer++] = value;
 		return pointer;
 	}
+
 	public static int writeBytes(byte[] dest, int pointer, short value) {
 		dest[pointer++] = (byte) ((value >> 8) & 0xff);
 		dest[pointer++] = (byte) ((value >> 0) & 0xff);
 		return pointer;
 	}
+
 	public static int writeBytes(byte[] dest, int pointer, char value) {
 		dest[pointer++] = (byte) ((value >> 8) & 0xff);
 		dest[pointer++] = (byte) ((value >> 0) & 0xff);
 		return pointer;
 	}
+
 	public static int writeBytes(byte[] dest, int pointer, int value) {
 		dest[pointer++] = (byte) ((value >> 24) & 0xff);
 		dest[pointer++] = (byte) ((value >> 16) & 0xff);
@@ -27,8 +38,9 @@ public class SerializationWriter {
 		dest[pointer++] = (byte) ((value >> 0) & 0xff);
 		return pointer;
 	}
+
 	public static int writeBytes(byte[] dest, int pointer, long value) {
-		dest[pointer++] = (byte) ((value >> 56) & 0xff); // 1_2 3_4 0000_0000 0000_0000  
+		dest[pointer++] = (byte) ((value >> 56) & 0xff); // 1_2 3_4 0000_0000 0000_0000
 		dest[pointer++] = (byte) ((value >> 48) & 0xff);
 		dest[pointer++] = (byte) ((value >> 40) & 0xff);
 		dest[pointer++] = (byte) ((value >> 32) & 0xff);
@@ -37,19 +49,31 @@ public class SerializationWriter {
 		dest[pointer++] = (byte) ((value >> 0) & 0xff);
 		return pointer;
 	}
+
 	public static int writeBytes(byte[] dest, int pointer, float value) {
 		int data = Float.floatToIntBits(value);
 		return writeBytes(dest, pointer, data);
 	}
+
 	public static int writeBytes(byte[] dest, int pointer, double value) {
 		long data = Double.doubleToLongBits(value);
 		return writeBytes(dest, pointer, data);
 	}
+
 	public static int writeBytes(byte[] dest, int pointer, boolean value) {
 		dest[pointer++] = (byte) (value ? 1 : 0);
 		return pointer;
 	}
-	
-	
+
+	public static int writeBytes(byte[] dest, int pointer, String string) {
+		// her we have three options:
+		// 1. Write the size before the string 06 SO AB
+		// 2. Null-termination character SO AB 0
+		// 3. Both approaches 06 SO AB 0
+
+		// adding the length of the string to the beggining of the string
+		pointer = writeBytes(dest, pointer, (short) string.length());
+		return writeBytes(dest, pointer, string.getBytes());
+	}
 
 }

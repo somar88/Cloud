@@ -21,11 +21,13 @@ public class Main {
 	public static void main(String[] args) {
 
 		byte[] data = new byte[32];
-		long  number = 0x12345678;
+//		long  number = 0x12345678;
 		int pointer = 0;
 		
+		String me = "Somar";
+		
 		printBytes(data);
-		pointer = writeBytes(data, pointer, number);
+		pointer = writeBytes(data, pointer, me);
 		printBytes(data);
 		
 //		#Ep - 04
