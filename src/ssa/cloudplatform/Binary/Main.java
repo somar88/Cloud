@@ -25,9 +25,11 @@ public class Main {
 		int pointer = 0;
 		
 		String me = "Somar";
+		pointer = writeBytes(data, pointer, 505);
 		
 		printBytes(data);
-		pointer = writeBytes(data, pointer, me);
+		
+		System.out.println( readInt(data, 0));
 		printBytes(data);
 		
 //		#Ep - 04

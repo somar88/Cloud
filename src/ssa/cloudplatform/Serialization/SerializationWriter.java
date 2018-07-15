@@ -4,8 +4,9 @@ public class SerializationWriter {
 
 	public static final byte[] HEADER = "SC".getBytes(); // Serlialized CVloud
 	public static final short VERSION = 0x0100; // big endian
-//	public static final byte flags = 0x0;
+	// public static final byte flags = 0x0;
 
+	// Converting from types to byte[]
 	public static int writeBytes(byte[] dest, int pointer, byte[] src) {
 
 		for (int i = 0; i < src.length; i++) {
@@ -74,6 +75,43 @@ public class SerializationWriter {
 		// adding the length of the string to the beggining of the string
 		pointer = writeBytes(dest, pointer, (short) string.length());
 		return writeBytes(dest, pointer, string.getBytes());
+	}
+
+	// Reading the byte[]
+
+	public static short readByte(byte[] src, int pointer) {
+		return src[pointer];
+	}
+
+	public static short readShort(byte[] src, int pointer) {
+		return (short) ((src[pointer] << 8) | (src[pointer + 1]));
+	}
+
+	public static char readChar(byte[] src, int pointer) {
+		return (char) ((src[pointer] << 8) | (src[pointer + 1]));
+	}
+
+	public static int readInt(byte[] src, int pointer) {
+		return (int) ((src[pointer] << 24) | (src[pointer + 1] << 16) | (src[pointer + 2] << 8) | (src[pointer + 3]));
+	}
+
+	public static long readLong(byte[] src, int pointer) {
+		return (long) ((src[pointer] << 56) | (src[pointer + 1] << 48) | (src[pointer + 2] << 40)
+				| (src[pointer + 3] << 32) | (src[pointer + 4] << 24) | (src[pointer + 5] << 16)
+				| (src[pointer + 6] << 8) | (src[pointer + 7]));
+	}
+
+	public static float readFloat(byte[] src, int pointer) {
+		return Float.intBitsToFloat(readInt(src, pointer));
+	}
+
+	public static double readDouble(byte[] src, int pointer) {
+		return Double.longBitsToDouble(readLong(src, pointer));
+	}
+
+	public static boolean readBoolean(byte[] src, int pointer) {
+		assert (src[pointer] == 0 || src[pointer] == 1);
+		return src[pointer] != 0;
 	}
 
 }
