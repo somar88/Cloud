@@ -1,5 +1,8 @@
 package ssa.cloudplatform.Binary;
-import static ssa.cloudplatform.Serialization.SerializationWriter.*;
+
+import ssa.cloudplatform.Serialization.Field;
+import ssa.cloudplatform.Serialization.IntField;
+import sun.net.www.content.audio.basic;
 
 public class Main {
 
@@ -19,31 +22,11 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-
-		byte[] data = new byte[32];
-//		long  number = 0x12345678;
-		int pointer = 0;
+		byte[]	data = new byte[50];
 		
-		String me = "Somar";
-		pointer = writeBytes(data, pointer, 505);
-		
+		Field field = new IntField("Test", 8);
+		field.getBytes(data, 0);
 		printBytes(data);
-		
-		System.out.println( readInt(data, 0));
-		printBytes(data);
-		
-//		#Ep - 04
-//		int color = 0xff00ff;
-//		int r = (color & 0xff0000) >> 16;
-//		int g = (color & 0x00ff00) >> 8;
-//		int b = (color & 0xff) >> 0;
-//		printHex(color);
-//		printHex(r);
-//		printHex(g);
-//		printHex(b);
-//		int shuffle = 0x000000;
-//		shuffle = (b << 16) | (r << 8) | g;
-//		printHex(shuffle);
 		
 	}
 
