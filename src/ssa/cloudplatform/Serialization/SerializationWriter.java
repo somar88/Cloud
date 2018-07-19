@@ -8,7 +8,7 @@ public class SerializationWriter {
 
 	// Converting from types to byte[]
 	public static int writeBytes(byte[] dest, int pointer, byte[] src) {
-
+		assert(dest.length > pointer + src.length);
 		for (int i = 0; i < src.length; i++) {
 			dest[pointer++] = src[i];
 		}
@@ -16,23 +16,27 @@ public class SerializationWriter {
 	}
 
 	public static int writeBytes(byte[] dest, int pointer, byte value) {
+		assert(dest.length > pointer + Type.getSize(Type.BYTE));
 		dest[pointer++] = value;
 		return pointer;
 	}
 
 	public static int writeBytes(byte[] dest, int pointer, short value) {
+		assert(dest.length > pointer + Type.getSize(Type.SHORT));
 		dest[pointer++] = (byte) ((value >> 8) & 0xff);
 		dest[pointer++] = (byte) ((value >> 0) & 0xff);
 		return pointer;
 	}
 
 	public static int writeBytes(byte[] dest, int pointer, char value) {
+		assert(dest.length > pointer + Type.getSize(Type.CHAR));
 		dest[pointer++] = (byte) ((value >> 8) & 0xff);
 		dest[pointer++] = (byte) ((value >> 0) & 0xff);
 		return pointer;
 	}
 
 	public static int writeBytes(byte[] dest, int pointer, int value) {
+		assert(dest.length > pointer + Type.getSize(Type.INT));
 		dest[pointer++] = (byte) ((value >> 24) & 0xff);
 		dest[pointer++] = (byte) ((value >> 16) & 0xff);
 		dest[pointer++] = (byte) ((value >> 8) & 0xff);
@@ -41,6 +45,7 @@ public class SerializationWriter {
 	}
 
 	public static int writeBytes(byte[] dest, int pointer, long value) {
+		assert(dest.length > pointer + Type.getSize(Type.LONG));
 		dest[pointer++] = (byte) ((value >> 56) & 0xff); // 1_2 3_4 0000_0000 0000_0000
 		dest[pointer++] = (byte) ((value >> 48) & 0xff);
 		dest[pointer++] = (byte) ((value >> 40) & 0xff);
@@ -52,16 +57,19 @@ public class SerializationWriter {
 	}
 
 	public static int writeBytes(byte[] dest, int pointer, float value) {
+		assert(dest.length > pointer + Type.getSize(Type.FLOAT));
 		int data = Float.floatToIntBits(value);
 		return writeBytes(dest, pointer, data);
 	}
 
 	public static int writeBytes(byte[] dest, int pointer, double value) {
+		assert(dest.length > pointer + Type.getSize(Type.DOUBLE));
 		long data = Double.doubleToLongBits(value);
 		return writeBytes(dest, pointer, data);
 	}
 
 	public static int writeBytes(byte[] dest, int pointer, boolean value) {
+		assert(dest.length > pointer + Type.getSize(Type.BOOLEAN));
 		dest[pointer++] = (byte) (value ? 1 : 0);
 		return pointer;
 	}

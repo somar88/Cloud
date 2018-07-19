@@ -12,7 +12,7 @@ public class Type {
 	public static final byte DOUBLE		= 7;
 	public static final byte BOOLEAN 	= 8;
 	
-	public static int getZize(byte type) {
+	public static int getSize(byte type) {
 		switch (type) {
 		case UNKNOWN: 		assert (false);
 		case BYTE: 			return 1;
