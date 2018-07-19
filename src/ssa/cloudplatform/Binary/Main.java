@@ -1,7 +1,6 @@
 package ssa.cloudplatform.Binary;
 
 import ssa.cloudplatform.Serialization.Field;
-import ssa.cloudplatform.Serialization.IntField;
 
 public class Main {
 
@@ -12,7 +11,7 @@ public class Main {
 	public static void printBin(int value) {
 		System.out.printf(Integer.toBinaryString(value) + "\n");
 	}
-	
+
 	public static void printBytes(byte[] data) {
 		for (int i = 0; i < data.length; i++) {
 			System.out.printf("0x%x ", data[i]);
@@ -21,12 +20,12 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		byte[]	data = new byte[50];
-		
-		Field field = new IntField("Test", 8);
+		Field field = Field.Integer("test", 10);
+
+		byte[] data = new byte[field.getSize()];
 		field.getBytes(data, 0);
 		printBytes(data);
-		
+
 	}
 
 }
