@@ -48,7 +48,23 @@ public class SerializationWriter {
 		return pointer;
 	}
 
+	public static int writeBytes(byte[] dest, int pointer, float[] src) {
+		assert (dest.length > pointer + src.length);
+		for (int i = 0; i < src.length; i++) {
+			pointer = writeBytes(dest, pointer, src[i]);
+		}
+		return pointer;
+	}
+
 	public static int writeBytes(byte[] dest, int pointer, double[] src) {
+		assert (dest.length > pointer + src.length);
+		for (int i = 0; i < src.length; i++) {
+			pointer = writeBytes(dest, pointer, src[i]);
+		}
+		return pointer;
+	}
+
+	public static int writeBytes(byte[] dest, int pointer, boolean[] src) {
 		assert (dest.length > pointer + src.length);
 		for (int i = 0; i < src.length; i++) {
 			pointer = writeBytes(dest, pointer, src[i]);
