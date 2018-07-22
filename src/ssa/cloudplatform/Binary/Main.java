@@ -1,5 +1,7 @@
 package ssa.cloudplatform.Binary;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.util.Random;
 
 import ssa.cloudplatform.Serialization.Array;
@@ -48,7 +50,20 @@ public class Main {
 
 		byte[] stream = new byte[array.getSize()];
 		array.getBytes(stream, 0);
-		printBytes(stream);
+		saveToFiel("Test.cdb", stream);
+//		printBytes(stream);
+	}
+
+	private static void saveToFiel(String path, byte[] data) {
+		try {
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(path));
+			stream.write(data);
+			stream.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }
