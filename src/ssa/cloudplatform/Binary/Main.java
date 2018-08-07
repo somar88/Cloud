@@ -4,8 +4,8 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.util.Random;
 
-import ssa.cloudplatform.Serialization.Array;
-import ssa.cloudplatform.Serialization.Field;
+import ssa.cloudplatform.Serialization.CArray;
+import ssa.cloudplatform.Serialization.CField;
 
 public class Main {
 
@@ -31,7 +31,7 @@ public class Main {
 		// Test of Field
 		System.out.println("Test of Field: ");
 
-		Field field = Field.Integer("test", 10);
+		CField field = CField.Integer("test", 10);
 		byte[] fdata = new byte[field.getSize()];
 		field.getBytes(fdata, 0);
 		printBytes(fdata);
@@ -46,7 +46,7 @@ public class Main {
 
 //		byte[] adata = new byte[] { 1, 2, 3, 4, 5 };
 		System.out.println(data.length + " - " + data[5000]);
-		Array array = Array.Integer("Test", data);
+		CArray array = CArray.Integer("Test", data);
 
 		byte[] stream = new byte[array.getSize()];
 		array.getBytes(stream, 0);

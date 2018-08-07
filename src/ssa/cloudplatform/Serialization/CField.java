@@ -2,7 +2,7 @@ package ssa.cloudplatform.Serialization;
 
 import static ssa.cloudplatform.Serialization.SerializationWriter.*;
 
-public class Field {
+public class CField {
 
 	public final byte CONTAINER_TYPE = ContinerType.FIELD; // data storage type(field, array, object)
 	public short nameLenght;
@@ -10,7 +10,7 @@ public class Field {
 	public byte type; // int - 4 bits
 	public byte[] data;
 	
-	private Field() {
+	private CField() {
 		
 	}
 
@@ -34,8 +34,8 @@ public class Field {
 		return 1 + 2 + name.length + 1 + data.length;
 	}
 
-	public static Field Byte(String name, byte value) {
-		Field field = new Field();
+	public static CField Byte(String name, byte value) {
+		CField field = new CField();
 		field.setName(name);
 		field.type = Type.BYTE;
 		field.data = new byte[Type.getSize(Type.BYTE)];
@@ -43,8 +43,8 @@ public class Field {
 		return field;
 	}
 
-	public static Field Short(String name, short value) {
-		Field field = new Field();
+	public static CField Short(String name, short value) {
+		CField field = new CField();
 		field.setName(name);
 		field.type = Type.SHORT;
 		field.data = new byte[Type.getSize(Type.SHORT)];
@@ -52,8 +52,8 @@ public class Field {
 		return field;
 	}
 
-	public static Field Char(String name, char value) {
-		Field field = new Field();
+	public static CField Char(String name, char value) {
+		CField field = new CField();
 		field.setName(name);
 		field.type = Type.CHAR;
 		field.data = new byte[Type.getSize(Type.CHAR)];
@@ -61,8 +61,8 @@ public class Field {
 		return field;
 	}
 
-	public static Field Integer(String name, int value) {
-		Field field = new Field();
+	public static CField Integer(String name, int value) {
+		CField field = new CField();
 		field.setName(name);
 		field.type = Type.INTEGER;
 		field.data = new byte[Type.getSize(Type.INTEGER)];
@@ -70,8 +70,8 @@ public class Field {
 		return field;
 	}
 
-	public static Field Long(String name, long value) {
-		Field field = new Field();
+	public static CField Long(String name, long value) {
+		CField field = new CField();
 		field.setName(name);
 		field.type = Type.LONG;
 		field.data = new byte[Type.getSize(Type.LONG)];
@@ -79,8 +79,8 @@ public class Field {
 		return field;
 	}
 
-	public static Field Float(String name, float value) {
-		Field field = new Field();
+	public static CField Float(String name, float value) {
+		CField field = new CField();
 		field.setName(name);
 		field.type = Type.FLOAT;
 		field.data = new byte[Type.getSize(Type.FLOAT)];
@@ -88,8 +88,8 @@ public class Field {
 		return field;
 	}
 
-	public static Field Double(String name, double value) {
-		Field field = new Field();
+	public static CField Double(String name, double value) {
+		CField field = new CField();
 		field.setName(name);
 		field.type = Type.DOUBLE;
 		field.data = new byte[Type.getSize(Type.DOUBLE)];
@@ -97,8 +97,8 @@ public class Field {
 		return field;
 	}
 
-	public static Field Boolean(String name, boolean value) {
-		Field field = new Field();
+	public static CField Boolean(String name, boolean value) {
+		CField field = new CField();
 		field.setName(name);
 		field.type = Type.BOOLEAN;
 		field.data = new byte[Type.getSize(Type.BOOLEAN)];

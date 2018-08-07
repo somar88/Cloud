@@ -2,7 +2,7 @@ package ssa.cloudplatform.Serialization;
 
 import static ssa.cloudplatform.Serialization.SerializationWriter.writeBytes;
 
-public class Array {
+public class CArray {
 
 	public final byte CONTAINER_TYPE = ContinerType.ARRAY; // data storage type(field, array, object)
 	public short nameLenght;
@@ -88,8 +88,8 @@ public class Array {
 		return 0;
 	}
 
-	public static Array Byte(String name, byte[] data) {
-		Array array = new Array();
+	public static CArray Byte(String name, byte[] data) {
+		CArray array = new CArray();
 		array.setName(name);
 		array.type = Type.BYTE;
 		array.count = data.length;
@@ -97,8 +97,8 @@ public class Array {
 		return array;
 	}
 
-	public static Array Short(String name, short[] data) {
-		Array array = new Array();
+	public static CArray Short(String name, short[] data) {
+		CArray array = new CArray();
 		array.setName(name);
 		array.type = Type.SHORT;
 		array.count = data.length;
@@ -106,8 +106,8 @@ public class Array {
 		return array;
 	}
 
-	public static Array Char(String name, char[] data) {
-		Array array = new Array();
+	public static CArray Char(String name, char[] data) {
+		CArray array = new CArray();
 		array.setName(name);
 		array.type = Type.CHAR;
 		array.count = data.length;
@@ -115,8 +115,8 @@ public class Array {
 		return array;
 	}
 
-	public static Array Integer(String name, int[] data) {
-		Array array = new Array();
+	public static CArray Integer(String name, int[] data) {
+		CArray array = new CArray();
 		array.setName(name);
 		array.type = Type.INTEGER;
 		array.count = data.length;
@@ -124,8 +124,8 @@ public class Array {
 		return array;
 	}
 
-	public static Array Long(String name, long[] data) {
-		Array array = new Array();
+	public static CArray Long(String name, long[] data) {
+		CArray array = new CArray();
 		array.setName(name);
 		array.type = Type.LONG;
 		array.count = data.length;
@@ -133,8 +133,8 @@ public class Array {
 		return array;
 	}
 
-	public static Array Float(String name, float[] data) {
-		Array array = new Array();
+	public static CArray Float(String name, float[] data) {
+		CArray array = new CArray();
 		array.setName(name);
 		array.type = Type.FLOAT;
 		array.count = data.length;
@@ -142,8 +142,8 @@ public class Array {
 		return array;
 	}
 
-	public static Array Double(String name, double[] data) {
-		Array array = new Array();
+	public static CArray Double(String name, double[] data) {
+		CArray array = new CArray();
 		array.setName(name);
 		array.type = Type.DOUBLE;
 		array.count = data.length;
@@ -151,8 +151,8 @@ public class Array {
 		return array;
 	}
 
-	public static Array Boolean(String name, boolean[] data) {
-		Array array = new Array();
+	public static CArray Boolean(String name, boolean[] data) {
+		CArray array = new CArray();
 		array.setName(name);
 		array.type = Type.BOOLEAN;
 		array.count = data.length;
