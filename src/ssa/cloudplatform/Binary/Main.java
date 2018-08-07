@@ -6,6 +6,7 @@ import java.util.Random;
 
 import ssa.cloudplatform.Serialization.CArray;
 import ssa.cloudplatform.Serialization.CField;
+import ssa.cloudplatform.Serialization.CObject;
 
 public class Main {
 
@@ -27,31 +28,20 @@ public class Main {
 	static Random random = new Random();
 
 	public static void main(String[] args) {
-
-		// Test of Field
-		System.out.println("Test of Field: ");
-
-		CField field = CField.Integer("test", 10);
-		byte[] fdata = new byte[field.getSize()];
-		field.getBytes(fdata, 0);
-		printBytes(fdata);
-
-		// Test of Array
-		System.out.println("Test of array: ");
-
 		int[] data = new int[10000];
 		for (int i = 0; i < data.length; i++) {
 			data[i] = random.nextInt();
 		}
+		CArray array = CArray.Integer("RandomNumber", data);
+		CField field = CField.Integer("Integer", 8);
+		
+		CObject object = new CObject("entity");
+		object.addArray(array);
+		object.addField(field);
 
-//		byte[] adata = new byte[] { 1, 2, 3, 4, 5 };
-		System.out.println(data.length + " - " + data[5000]);
-		CArray array = CArray.Integer("Test", data);
-
-		byte[] stream = new byte[array.getSize()];
-		array.getBytes(stream, 0);
+		byte[] stream = new byte[object.getSize()];
+		object.getBytes(stream, 0);
 		saveToFiel("Test.cdb", stream);
-//		printBytes(stream);
 	}
 
 	private static void saveToFiel(String path, byte[] data) {
