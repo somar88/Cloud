@@ -10,6 +10,8 @@ import ssa.cloudplatform.Serialization.CObject;
 
 public class Main {
 
+	static Random random = new Random();
+
 	public static void printHex(int value) {
 		System.out.printf("%x\n", value);
 	}
@@ -25,25 +27,6 @@ public class Main {
 		System.out.println();
 	}
 
-	static Random random = new Random();
-
-	public static void main(String[] args) {
-		int[] data = new int[10000];
-		for (int i = 0; i < data.length; i++) {
-			data[i] = random.nextInt();
-		}
-		CArray array = CArray.Integer("RandomNumber", data);
-		CField field = CField.Integer("Integer", 8);
-		
-		CObject object = new CObject("entity");
-		object.addArray(array);
-		object.addField(field);
-
-		byte[] stream = new byte[object.getSize()];
-		object.getBytes(stream, 0);
-		saveToFiel("Test.cdb", stream);
-	}
-
 	private static void saveToFiel(String path, byte[] data) {
 		try {
 			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(path));
@@ -54,6 +37,23 @@ public class Main {
 			e.printStackTrace();
 		}
 
+	}
+
+	public static void main(String[] args) {
+		int[] data = new int[10000];
+		for (int i = 0; i < data.length; i++) {
+			data[i] = random.nextInt();
+		}
+		CArray array = CArray.Integer("RandomNumber", data);
+		CField field = CField.Integer("Integer", 8);
+
+		CObject object = new CObject("entity");
+		object.addArray(array);
+		object.addField(field);
+
+		byte[] stream = new byte[object.getSize()];
+		object.getBytes(stream, 0);
+		saveToFiel("Test.cdb", stream);
 	}
 
 }

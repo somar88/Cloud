@@ -7,6 +7,7 @@ public class CArray {
 	public final byte CONTAINER_TYPE = ContinerType.ARRAY; // data storage type(field, array, object)
 	public short nameLenght;
 	public byte[] name;
+	public int size = 1 + 2 + 4 + 1 + 4;
 	public byte type; // element type
 	public int count; // element count
 	public byte[] data;
@@ -18,6 +19,9 @@ public class CArray {
 	private float[] floatData;
 	private double[] doubleData;
 	private boolean[] booleanData;
+
+	private CArray() {
+	}
 
 	public void setName(String name) {
 		assert (name.length() < Short.MAX_VALUE);
