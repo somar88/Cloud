@@ -7,15 +7,14 @@ import java.util.List;
 
 public class CObject {
 
-	public final byte CONTAINER_TYPE = ContinerType.OBJECT; // data storage type(field, array, object)
+	public static final byte CONTAINER_TYPE = ContinerType.OBJECT; // data storage type(field, array, object)
 	public short nameLenght;
 	public byte[] name;
+	private int size = 1 + 2 + 4 + 2 + 2;
 	private short fieldCount;
 	private List<CField> fields = new ArrayList<CField>();
 	private short arrayCount;
 	private List<CArray> arrays = new ArrayList<CArray>();
-
-	private int size = 1 + 2 + 2 + 2;
 	
 	
 	public CObject(String name) {
@@ -55,6 +54,7 @@ public class CObject {
 		pointer = writeBytes(dest, pointer, CONTAINER_TYPE);
 		pointer = writeBytes(dest, pointer, nameLenght);
 		pointer = writeBytes(dest, pointer, name);
+		pointer = writeBytes(dest, pointer, size);
 		
 		pointer = writeBytes(dest, pointer, fieldCount);
 		for (CField field : fields) {

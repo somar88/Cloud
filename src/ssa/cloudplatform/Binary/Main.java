@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.util.Random;
 
 import ssa.cloudplatform.Serialization.CArray;
+import ssa.cloudplatform.Serialization.CDatabase;
 import ssa.cloudplatform.Serialization.CField;
 import ssa.cloudplatform.Serialization.CObject;
 
@@ -44,15 +45,24 @@ public class Main {
 		for (int i = 0; i < data.length; i++) {
 			data[i] = random.nextInt();
 		}
-		CArray array = CArray.Integer("RandomNumber", data);
+
+		CDatabase databace = new CDatabase("Database");
+
+		CArray array = CArray.Integer("RandomNumbers", data);
 		CField field = CField.Integer("Integer", 8);
+		CField positionx = CField.Short("xpos", (short) 2);
+		CField positiony = CField.Short("ypos", (short) 43);
 
 		CObject object = new CObject("entity");
-		object.addArray(array);
+//		object.addArray(array);
 		object.addField(field);
+		object.addField(positionx);
+		object.addField(positiony);
 
-		byte[] stream = new byte[object.getSize()];
-		object.getBytes(stream, 0);
+		databace.addObject(object);
+
+		byte[] stream = new byte[databace.getSize()];
+		databace.getBytes(stream, 0);
 		saveToFiel("Test.cdb", stream);
 	}
 

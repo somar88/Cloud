@@ -4,7 +4,7 @@ import static ssa.cloudplatform.Serialization.SerializationWriter.*;
 
 public class CField {
 
-	public final byte CONTAINER_TYPE = ContinerType.FIELD; // data storage type(field, array, object)
+	public static final byte CONTAINER_TYPE = ContinerType.FIELD; // data storage type(field, array, object)
 	public short nameLenght;
 	public byte[] name;
 	public byte type; // int - 4 bits
