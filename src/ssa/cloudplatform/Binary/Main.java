@@ -8,6 +8,7 @@ import ssa.cloudplatform.Serialization.CArray;
 import ssa.cloudplatform.Serialization.CDatabase;
 import ssa.cloudplatform.Serialization.CField;
 import ssa.cloudplatform.Serialization.CObject;
+import ssa.cloudplatform.Serialization.CString;
 
 public class Main {
 
@@ -55,9 +56,11 @@ public class Main {
 
 		CObject object = new CObject("entity");
 //		object.addArray(array);
+		object.addArray(CArray.Char("String", "Hello World!".toCharArray()));
 		object.addField(field);
 		object.addField(positionx);
 		object.addField(positiony);
+		object.addString(CString.Create("Example String", "Testing owr RCString class!"));
 
 		databace.addObject(object);
 

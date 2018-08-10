@@ -13,6 +13,8 @@ public class CObject {
 	private int size = 1 + 2 + 4 + 2 + 2;
 	private short fieldCount;
 	private List<CField> fields = new ArrayList<CField>();
+	private short stringCount;
+	private List<CString> strings = new ArrayList<CString>();
 	private short arrayCount;
 	private List<CArray> arrays = new ArrayList<CArray>();
 	
@@ -39,6 +41,13 @@ public class CObject {
 
 	}
 
+	public void addString(CString string) {
+		strings.add(string);
+		size += string.getSize();
+		stringCount = (short) strings.size();
+
+	}
+
 	public void addArray(CArray array) {
 		arrays.add(array);
 		size += array.getSize();
@@ -59,6 +68,11 @@ public class CObject {
 		pointer = writeBytes(dest, pointer, fieldCount);
 		for (CField field : fields) {
 			pointer = field.getBytes(dest, pointer);
+		}
+		
+		pointer = writeBytes(dest, pointer, stringCount);
+		for (CString string: strings) {
+			pointer = string.getBytes(dest, pointer);
 		}
 		
 
