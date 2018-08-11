@@ -40,8 +40,8 @@ public class Main {
 		}
 
 	}
-
-	public static void main(String[] args) {
+	
+	public static void serializationTest() {
 		int[] data = new int[10000];
 		for (int i = 0; i < data.length; i++) {
 			data[i] = random.nextInt();
@@ -55,7 +55,7 @@ public class Main {
 		CField positiony = CField.Short("ypos", (short) 43);
 
 		CObject object = new CObject("entity");
-//		object.addArray(array);
+		object.addArray(array);
 		object.addArray(CArray.Char("String", "Hello World!".toCharArray()));
 		object.addField(field);
 		object.addField(positionx);
@@ -67,6 +67,18 @@ public class Main {
 		byte[] stream = new byte[databace.getSize()];
 		databace.getBytes(stream, 0);
 		saveToFiel("Test.cdb", stream);
+	}
+
+	public static void deserializationTest() {
+ 		CDatabase database = CDatabase.DeseializeFromFile("test.cdb");
+		System.out.println(database.getName());
+	}
+	
+	public static void main(String[] args) {
+		
+		// serializationTest();
+		deserializationTest();
+		
 	}
 
 }

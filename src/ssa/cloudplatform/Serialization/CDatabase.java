@@ -1,7 +1,12 @@
 package ssa.cloudplatform.Serialization;
 
+
+import static ssa.cloudplatform.Serialization.SerializationWriter.*;
+import static ssa.cloudplatform.Serialization.SerializationWriter.readString;
 import static ssa.cloudplatform.Serialization.SerializationWriter.writeBytes;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +23,9 @@ public class CDatabase {
 	public CDatabase(String name) {
 		setName(name);
 	}
+	
+	private CDatabase() {
+	}
 
 	public void setName(String name) {
 		assert (name.length() < Short.MAX_VALUE);
@@ -28,6 +36,10 @@ public class CDatabase {
 		nameLenght = (short) name.length();
 		this.name = name.getBytes();
 		size += nameLenght;
+	}
+	
+	public String getName() {
+		return new String(name, 0, name.length);
 	}
 
 	public void addObject(CObject object) {
@@ -56,6 +68,47 @@ public class CDatabase {
 
 		return pointer;
 
+	}
+
+	public static CDatabase Deserialize(byte[] data) {
+		int pointer = 0;
+		// String header = readString(data, pointer, 4);
+		// System.out.print(header);	
+
+		assert (readString(data, pointer, HEADER.length).equals(HEADER));
+		pointer += HEADER.length;
+		
+		byte containerType = readByte(data, pointer++);
+		assert(containerType == CONTAINER_TYPE);
+		
+		CDatabase result = new CDatabase();
+		result.nameLenght = readShort(data, pointer);
+		pointer +=2;
+		result.name = readString(data, pointer, result.nameLenght).getBytes();
+		pointer +=result.nameLenght;
+		
+		result.size = readInt(data, pointer);
+		pointer += 4;
+		
+		result.objectCount = readShort(data, pointer);
+		pointer +=2;
+		
+		return result;
+	}
+
+	public static CDatabase DeseializeFromFile(String path) {
+		byte[] buffer = null;
+		try {
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream(path));
+			buffer = new byte[stream.available()];
+			stream.read(buffer);
+			stream.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return Deserialize(buffer);
 	}
 
 }

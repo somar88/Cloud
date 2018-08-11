@@ -1,5 +1,7 @@
 package ssa.cloudplatform.Serialization;
 
+import java.nio.ByteBuffer;
+
 public class SerializationWriter {
 
 	public static final byte[] HEADER = "SC".getBytes(); // Serlialized CVloud
@@ -38,7 +40,6 @@ public class SerializationWriter {
 		}
 		return pointer;
 	}
-
 
 	public static int writeBytes(byte[] dest, int pointer, long[] src) {
 		assert (dest.length > pointer + src.length);
@@ -144,7 +145,7 @@ public class SerializationWriter {
 
 	// Reading the byte[]
 
-	public static short readByte(byte[] src, int pointer) {
+	public static byte readByte(byte[] src, int pointer) {
 		return src[pointer];
 	}
 
@@ -157,7 +158,10 @@ public class SerializationWriter {
 	}
 
 	public static int readInt(byte[] src, int pointer) {
-		return (int) ((src[pointer] << 24) | (src[pointer + 1] << 16) | (src[pointer + 2] << 8) | (src[pointer + 3]));
+		return ByteBuffer.wrap(src, pointer, 4).get(); 	// as in Java the bytes are signed we have to use this method to
+														// get the real value
+		// return (int) ((src[pointer] << 24) | (src[pointer + 1] << 16) | (src[pointer
+		// + 2] << 8) | (src[pointer + 3]));
 	}
 
 	public static long readLong(byte[] src, int pointer) {
@@ -177,6 +181,10 @@ public class SerializationWriter {
 	public static boolean readBoolean(byte[] src, int pointer) {
 		assert (src[pointer] == 0 || src[pointer] == 1);
 		return src[pointer] != 0;
+	}
+
+	public static String readString(byte[] src, int pointer, int length) {
+		return new String(src, pointer, length);
 	}
 
 }
