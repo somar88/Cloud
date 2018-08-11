@@ -40,45 +40,48 @@ public class Main {
 		}
 
 	}
-	
+
 	public static void serializationTest() {
 		int[] data = new int[10000];
 		for (int i = 0; i < data.length; i++) {
 			data[i] = random.nextInt();
 		}
 
-		CDatabase databace = new CDatabase("Database");
-
+		CDatabase database = new CDatabase("Database");
 		CArray array = CArray.Integer("RandomNumbers", data);
 		CField field = CField.Integer("Integer", 8);
 		CField positionx = CField.Short("xpos", (short) 2);
 		CField positiony = CField.Short("ypos", (short) 43);
 
-		CObject object = new CObject("entity");
+		CObject object = new CObject("Entity");
 		object.addArray(array);
 		object.addArray(CArray.Char("String", "Hello World!".toCharArray()));
 		object.addField(field);
 		object.addField(positionx);
 		object.addField(positiony);
-		object.addString(CString.Create("Example String", "Testing owr RCString class!"));
+		object.addString(CString.Create("Example String", "Testing our RCString class!"));
 
-		databace.addObject(object);
+		database.addObject(object);
+		database.addObject(new CObject("Cherno"));
 
-		byte[] stream = new byte[databace.getSize()];
-		databace.getBytes(stream, 0);
+		byte[] stream = new byte[database.getSize()];
+		database.getBytes(stream, 0);
 		saveToFiel("Test.cdb", stream);
 	}
 
 	public static void deserializationTest() {
- 		CDatabase database = CDatabase.DeseializeFromFile("test.cdb");
-		System.out.println(database.getName());
+		CDatabase database = CDatabase.DeseializeFromFile("test.cdb");
+		System.out.println("Database: " + database.getName());
+		for (int i = 0; i < database.objects.size(); i++) {
+			System.out.println("\t" + database.objects.get(i).getName());
+		}
 	}
-	
+
 	public static void main(String[] args) {
-		
-		// serializationTest();
+
+		serializationTest();
 		deserializationTest();
-		
+
 	}
 
 }

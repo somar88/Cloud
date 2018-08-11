@@ -18,13 +18,17 @@ public class CObject {
 	private short arrayCount;
 	private List<CArray> arrays = new ArrayList<CArray>();
 
-	public final int sizeOffset = 1 + 2 + 4;
+	public static final int sizeOffset = 1 + 2 + 4;
+
+	private CObject() {
+	}
 
 	public CObject(String name) {
 		setName(name);
 	}
 
-	private CObject() {
+	public String getName() {
+		return new String(name, 0, name.length);
 	}
 
 	public void setName(String name) {
@@ -88,9 +92,10 @@ public class CObject {
 
 	}
 
-	public CObject Deserialize(byte[] data, int pointer) {
+	public static CObject Deserialize(byte[] data, int[] pointerRef) {
+		int pointer = pointerRef[0];
 		byte containerType = data[pointer++];
-		assert (data[pointer++] == CONTAINER_TYPE);
+		assert (containerType == CONTAINER_TYPE);
 
 		CObject result = new CObject();
 		result.nameLength = readShort(data, pointer);
@@ -101,9 +106,11 @@ public class CObject {
 		result.size = readInt(data, pointer);
 		pointer += 4;
 
-		pointer += sizeOffset - result.nameLength;
+		pointer += result.size - sizeOffset - result.nameLength;
+
+		pointerRef[0] = pointer;
 		if (true)
-			return null;
+			return result;
 
 		result.fieldCount = readShort(data, pointer);
 		pointer += 2;
@@ -119,7 +126,7 @@ public class CObject {
 		pointer += 2;
 
 		// Deserialize array
-		
+
 		return result;
 
 	}

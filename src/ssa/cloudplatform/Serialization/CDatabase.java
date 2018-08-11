@@ -18,7 +18,7 @@ public class CDatabase {
 	public byte[] name;
 	private int size = HEADER.length + 1 + 2 + 4 + 2;
 	private short objectCount;
-	private List<CObject> objects = new ArrayList<CObject>();
+	public List<CObject> objects = new ArrayList<CObject>();
 
 	public CDatabase(String name) {
 		setName(name);
@@ -84,6 +84,7 @@ public class CDatabase {
 		CDatabase result = new CDatabase();
 		result.nameLenght = readShort(data, pointer);
 		pointer +=2;
+		
 		result.name = readString(data, pointer, result.nameLenght).getBytes();
 		pointer +=result.nameLenght;
 		
@@ -92,6 +93,12 @@ public class CDatabase {
 		
 		result.objectCount = readShort(data, pointer);
 		pointer +=2;
+
+
+		int[] pointerRef = new int[] {pointer};
+		for(int i = 0; i < result.objectCount; i++) {
+			result.objects.add(CObject.Deserialize(data,  pointerRef));
+		}
 		
 		return result;
 	}
