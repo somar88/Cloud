@@ -1,6 +1,6 @@
 package ssa.cloudplatform.Serialization;
 
-import static ssa.cloudplatform.Serialization.SerializationWriter.writeBytes;
+import static ssa.cloudplatform.Serialization.SerializationWriter.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 public class CObject {
 
 	public static final byte CONTAINER_TYPE = ContinerType.OBJECT; // data storage type(field, array, object)
-	public short nameLenght;
+	public short nameLength;
 	public byte[] name;
 	private int size = 1 + 2 + 4 + 2 + 2 + 2;
 	private short fieldCount;
@@ -17,21 +17,25 @@ public class CObject {
 	private List<CString> strings = new ArrayList<CString>();
 	private short arrayCount;
 	private List<CArray> arrays = new ArrayList<CArray>();
-	
-	
+
+	public final int sizeOffset = 1 + 2 + 4;
+
 	public CObject(String name) {
-		setName(name);		
+		setName(name);
+	}
+
+	private CObject() {
 	}
 
 	public void setName(String name) {
 		assert (name.length() < Short.MAX_VALUE);
-		
+
 		if (this.name != null)
 			size -= this.name.length;
-		
-		nameLenght = (short) name.length();
+
+		nameLength = (short) name.length();
 		this.name = name.getBytes();
-		size += nameLenght;
+		size += nameLength;
 	}
 
 	public void addField(CField field) {
@@ -61,28 +65,63 @@ public class CObject {
 
 	public int getBytes(byte[] dest, int pointer) {
 		pointer = writeBytes(dest, pointer, CONTAINER_TYPE);
-		pointer = writeBytes(dest, pointer, nameLenght);
+		pointer = writeBytes(dest, pointer, nameLength);
 		pointer = writeBytes(dest, pointer, name);
 		pointer = writeBytes(dest, pointer, size);
-		
+
 		pointer = writeBytes(dest, pointer, fieldCount);
 		for (CField field : fields) {
 			pointer = field.getBytes(dest, pointer);
 		}
-		
+
 		pointer = writeBytes(dest, pointer, stringCount);
-		for (CString string: strings) {
+		for (CString string : strings) {
 			pointer = string.getBytes(dest, pointer);
 		}
-		
 
 		pointer = writeBytes(dest, pointer, arrayCount);
-		for(CArray array : arrays) {
+		for (CArray array : arrays) {
 			pointer = array.getBytes(dest, pointer);
 		}
-		
+
 		return pointer;
+
+	}
+
+	public CObject Deserialize(byte[] data, int pointer) {
+		byte containerType = data[pointer++];
+		assert (data[pointer++] == CONTAINER_TYPE);
+
+		CObject result = new CObject();
+		result.nameLength = readShort(data, pointer);
+		pointer += 2;
+		result.name = readString(data, pointer, result.nameLength).getBytes();
+		pointer += result.nameLength;
+
+		result.size = readInt(data, pointer);
+		pointer += 4;
+
+		pointer += sizeOffset - result.nameLength;
+		if (true)
+			return null;
+
+		result.fieldCount = readShort(data, pointer);
+		pointer += 2;
+
+		// Deserialize field
+
+		result.stringCount = readShort(data, pointer);
+		pointer += 2;
+
+		// Deserialize string
+
+		result.arrayCount = readShort(data, pointer);
+		pointer += 2;
+
+		// Deserialize array
 		
+		return result;
+
 	}
 
 }
