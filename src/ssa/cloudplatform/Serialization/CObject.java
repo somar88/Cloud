@@ -12,11 +12,11 @@ public class CObject {
 	public byte[] name;
 	private int size = 1 + 2 + 4 + 2 + 2 + 2;
 	private short fieldCount;
-	private List<CField> fields = new ArrayList<CField>();
+	public List<CField> fields = new ArrayList<CField>();
 	private short stringCount;
-	private List<CString> strings = new ArrayList<CString>();
+	public List<CString> strings = new ArrayList<CString>();
 	private short arrayCount;
-	private List<CArray> arrays = new ArrayList<CArray>();
+	public List<CArray> arrays = new ArrayList<CArray>();
 
 	public static final int sizeOffset = 1 + 2 + 4; // conaineType + nameLength + size
 
@@ -105,7 +105,7 @@ public class CObject {
 		result.size = readInt(data, pointer);
 		pointer += 4;
 
-		pointer += result.size - sizeOffset - result.nameLength;
+//		not needed any more: pointer += result.size - sizeOffset - result.nameLength;
 
 		result.fieldCount = readShort(data, pointer);
 		pointer += 2;

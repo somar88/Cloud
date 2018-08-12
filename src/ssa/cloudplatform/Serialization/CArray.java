@@ -34,6 +34,10 @@ public class CArray {
 		size += nameLength;
 	}
 
+	public String getName() {
+		return new String(name, 0, nameLength);
+	}
+
 	private void updateSize() {
 		size += getDataSize();
 	}

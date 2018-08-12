@@ -65,7 +65,6 @@ public class Main {
 		CObject obj01 = new CObject("Cherno1");
 		database.addObject(obj01);
 
-
 		byte[] stream = new byte[database.getSize()];
 		database.getBytes(stream, 0);
 		saveToFiel("Test.cdb", stream);
@@ -74,8 +73,20 @@ public class Main {
 	public static void deserializationTest() {
 		CDatabase database = CDatabase.DeseializeFromFile("Test.cdb");
 		System.out.println("Database: " + database.getName());
-		for (int i = 0; i < database.objects.size(); i++) {
-			System.out.println("\t" + database.objects.get(i).getName());
+		for (CObject object : database.objects) {
+			System.out.println("\t" + object.getName());
+			for (CField field : object.fields) {
+				System.out.println("\t\t" + field.getName());
+			}
+			System.out.println();
+			for (CString string: object.strings) {
+				System.out.println("\t\t" + string.getName() + " = " + string.getString());
+			}
+			System.out.println();
+			for (CArray array : object.arrays) {
+				System.out.println("\t\t" + array.getName());
+			}
+			System.out.println();
 		}
 	}
 
