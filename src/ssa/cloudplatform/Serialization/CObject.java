@@ -18,7 +18,7 @@ public class CObject {
 	private short arrayCount;
 	private List<CArray> arrays = new ArrayList<CArray>();
 
-	public static final int sizeOffset = 1 + 2 + 4;
+	public static final int sizeOffset = 1 + 2 + 4; // conaineType + nameLength + size
 
 	private CObject() {
 	}
@@ -92,8 +92,7 @@ public class CObject {
 
 	}
 
-	public static CObject Deserialize(byte[] data, int[] pointerRef) {
-		int pointer = pointerRef[0];
+	public static CObject Deserialize(byte[] data, int pointer) {
 		byte containerType = data[pointer++];
 		assert (containerType == CONTAINER_TYPE);
 
@@ -108,7 +107,6 @@ public class CObject {
 
 		pointer += result.size - sizeOffset - result.nameLength;
 
-		pointerRef[0] = pointer;
 		if (true)
 			return result;
 

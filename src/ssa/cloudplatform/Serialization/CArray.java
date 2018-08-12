@@ -7,7 +7,7 @@ public class CArray {
 	public static final byte CONTAINER_TYPE = ContinerType.ARRAY; // data storage type(field, array, object)
 	public short nameLenght;
 	public byte[] name;
-	public int size = 1 + 2 + 4 + 4 + 1 + 4;
+	public int size = 1 + 2 + 4 + 1 + 4;
 	public byte type; // element type
 	public int count; // element count
 	public byte[] data;

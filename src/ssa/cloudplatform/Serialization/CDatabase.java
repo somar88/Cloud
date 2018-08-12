@@ -1,6 +1,5 @@
 package ssa.cloudplatform.Serialization;
 
-
 import static ssa.cloudplatform.Serialization.SerializationWriter.*;
 import static ssa.cloudplatform.Serialization.SerializationWriter.readString;
 import static ssa.cloudplatform.Serialization.SerializationWriter.writeBytes;
@@ -23,7 +22,7 @@ public class CDatabase {
 	public CDatabase(String name) {
 		setName(name);
 	}
-	
+
 	private CDatabase() {
 	}
 
@@ -37,7 +36,7 @@ public class CDatabase {
 		this.name = name.getBytes();
 		size += nameLenght;
 	}
-	
+
 	public String getName() {
 		return new String(name, 0, name.length);
 	}
@@ -73,33 +72,32 @@ public class CDatabase {
 	public static CDatabase Deserialize(byte[] data) {
 		int pointer = 0;
 		// String header = readString(data, pointer, 4);
-		// System.out.print(header);	
+		// System.out.print(header);
 
 		assert (readString(data, pointer, HEADER.length).equals(HEADER));
 		pointer += HEADER.length;
-		
+
 		byte containerType = readByte(data, pointer++);
-		assert(containerType == CONTAINER_TYPE);
-		
+		assert (containerType == CONTAINER_TYPE);
+
 		CDatabase result = new CDatabase();
 		result.nameLenght = readShort(data, pointer);
-		pointer +=2;
-		
+		pointer += 2;
 		result.name = readString(data, pointer, result.nameLenght).getBytes();
-		pointer +=result.nameLenght;
-		
+		pointer += result.nameLenght;
+
 		result.size = readInt(data, pointer);
 		pointer += 4;
-		
+
 		result.objectCount = readShort(data, pointer);
-		pointer +=2;
-
-
-		int[] pointerRef = new int[] {pointer};
-		for(int i = 0; i < result.objectCount; i++) {
-			result.objects.add(CObject.Deserialize(data,  pointerRef));
-		}
+		pointer += 2;
 		
+		for (int i = 0; i < result.objectCount; i++) {
+			CObject obj = CObject.Deserialize(data, pointer);
+			result.objects.add(obj);
+			pointer += obj.getSize();
+		}
+
 		return result;
 	}
 

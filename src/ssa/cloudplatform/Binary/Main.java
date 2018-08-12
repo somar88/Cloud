@@ -62,7 +62,9 @@ public class Main {
 		object.addString(CString.Create("Example String", "Testing our RCString class!"));
 
 		database.addObject(object);
-		database.addObject(new CObject("Cherno"));
+		CObject obj01 = new CObject("Cherno1");
+		database.addObject(obj01);
+
 
 		byte[] stream = new byte[database.getSize()];
 		database.getBytes(stream, 0);
@@ -70,7 +72,7 @@ public class Main {
 	}
 
 	public static void deserializationTest() {
-		CDatabase database = CDatabase.DeseializeFromFile("test.cdb");
+		CDatabase database = CDatabase.DeseializeFromFile("Test.cdb");
 		System.out.println("Database: " + database.getName());
 		for (int i = 0; i < database.objects.size(); i++) {
 			System.out.println("\t" + database.objects.get(i).getName());

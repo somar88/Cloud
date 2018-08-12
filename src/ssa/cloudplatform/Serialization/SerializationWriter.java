@@ -158,7 +158,7 @@ public class SerializationWriter {
 	}
 
 	public static int readInt(byte[] src, int pointer) {
-		return ByteBuffer.wrap(src, pointer, 4).get(); 	// as in Java the bytes are signed we have to use this method to
+		return ByteBuffer.wrap(src, pointer, 4).getInt(); 	// as in Java the bytes are signed we have to use this method to
 														// get the real value
 		// return (int) ((src[pointer] << 24) | (src[pointer + 1] << 16) | (src[pointer
 		// + 2] << 8) | (src[pointer + 3]));
