@@ -107,23 +107,32 @@ public class CObject {
 
 		pointer += result.size - sizeOffset - result.nameLength;
 
-		if (true)
-			return result;
-
 		result.fieldCount = readShort(data, pointer);
 		pointer += 2;
 
-		// Deserialize field
+		for (int i = 0; i < result.fieldCount; i++) {
+			CField field = CField.Deserialize(data, pointer);
+			result.fields.add(field);
+			pointer += field.getSize();
+		}
 
 		result.stringCount = readShort(data, pointer);
 		pointer += 2;
 
-		// Deserialize string
+		for (int i = 0; i < result.stringCount; i++) {
+			CString string= CString.Deserialize(data, pointer);
+			result.strings.add(string);
+			pointer += string.getSize();
+		}
 
 		result.arrayCount = readShort(data, pointer);
 		pointer += 2;
 
-		// Deserialize array
+		for (int i = 0; i < result.arrayCount; i++) {
+			CArray array = CArray.Deserialize(data, pointer);
+			result.arrays.add(array);
+			pointer += array.getSize();
+		}
 
 		return result;
 
