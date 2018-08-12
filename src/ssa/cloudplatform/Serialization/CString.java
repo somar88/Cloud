@@ -1,32 +1,15 @@
 package ssa.cloudplatform.Serialization;
 
-import static ssa.cloudplatform.Serialization.SerializationWriter.*;
+import static ssa.cloudplatform.Serialization.SerializationUtils.*;
 
-public class CString {
+public class CString extends CSCore {
 
 	public static final byte CONTAINER_TYPE = ContinerType.STRING; // data storage type(field, array, object)
-	public short nameLength;
-	public byte[] name;
-	public int size = 1 + 2 + 4 + 4;
 	public int count;
 	private char[] characters;
 
 	private CString() {
-	}
-
-	public String getName() {
-		return new String(name, 0, name.length);
-	}
-
-	public void setName(String name) {
-		assert (name.length() < Short.MAX_VALUE);
-
-		if (this.name != null)
-			size -= this.name.length;
-
-		nameLength = (short) name.length();
-		this.name = name.getBytes();
-		size += nameLength;
+		size += 1 + 4;
 	}
 
 	public String getString() {

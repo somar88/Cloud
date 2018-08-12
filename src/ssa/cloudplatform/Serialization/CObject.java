@@ -1,16 +1,13 @@
 package ssa.cloudplatform.Serialization;
 
-import static ssa.cloudplatform.Serialization.SerializationWriter.*;
+import static ssa.cloudplatform.Serialization.SerializationUtils.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CObject {
+public class CObject extends CSCore {
 
 	public static final byte CONTAINER_TYPE = ContinerType.OBJECT; // data storage type(field, array, object)
-	public short nameLength;
-	public byte[] name;
-	private int size = 1 + 2 + 4 + 2 + 2 + 2;
 	private short fieldCount;
 	public List<CField> fields = new ArrayList<CField>();
 	private short stringCount;
@@ -18,28 +15,12 @@ public class CObject {
 	private short arrayCount;
 	public List<CArray> arrays = new ArrayList<CArray>();
 
-	public static final int sizeOffset = 1 + 2 + 4; // conaineType + nameLength + size
-
 	private CObject() {
 	}
 
 	public CObject(String name) {
+		size += 1 + 2 + 2 + 2;
 		setName(name);
-	}
-
-	public String getName() {
-		return new String(name, 0, name.length);
-	}
-
-	public void setName(String name) {
-		assert (name.length() < Short.MAX_VALUE);
-
-		if (this.name != null)
-			size -= this.name.length;
-
-		nameLength = (short) name.length();
-		this.name = name.getBytes();
-		size += nameLength;
 	}
 
 	public void addField(CField field) {
@@ -120,7 +101,7 @@ public class CObject {
 		pointer += 2;
 
 		for (int i = 0; i < result.stringCount; i++) {
-			CString string= CString.Deserialize(data, pointer);
+			CString string = CString.Deserialize(data, pointer);
 			result.strings.add(string);
 			pointer += string.getSize();
 		}

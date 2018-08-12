@@ -2,11 +2,7 @@ package ssa.cloudplatform.Serialization;
 
 import java.nio.ByteBuffer;
 
-public class SerializationWriter {
-
-	public static final byte[] HEADER = "SC".getBytes(); // Serlialized CVloud
-	public static final short VERSION = 0x0100; // big endian
-	// public static final byte flags = 0x0;
+public class SerializationUtils {
 
 	// Converting from types to byte[]
 	public static int writeBytes(byte[] dest, int pointer, byte[] src) {
@@ -205,11 +201,13 @@ public class SerializationWriter {
 	}
 
 	public static short readShort(byte[] src, int pointer) {
-		return (short) ((src[pointer] << 8) | (src[pointer + 1]));
+		return ByteBuffer.wrap(src, pointer, 2).getShort();
+//		return (short) ((src[pointer] << 8) | (src[pointer + 1]));
 	}
 
 	public static char readChar(byte[] src, int pointer) {
-		return (char) ((src[pointer] << 8) | (src[pointer + 1]));
+		return ByteBuffer.wrap(src, pointer, 2).getChar();
+//		return (char) ((src[pointer] << 8) | (src[pointer + 1]));
 	}
 
 	public static int readInt(byte[] src, int pointer) {
@@ -221,9 +219,10 @@ public class SerializationWriter {
 	}
 
 	public static long readLong(byte[] src, int pointer) {
-		return (long) ((src[pointer] << 56) | (src[pointer + 1] << 48) | (src[pointer + 2] << 40)
-				| (src[pointer + 3] << 32) | (src[pointer + 4] << 24) | (src[pointer + 5] << 16)
-				| (src[pointer + 6] << 8) | (src[pointer + 7]));
+		return ByteBuffer.wrap(src, pointer, 8).getLong();
+//		return (long) ((src[pointer] << 56) | (src[pointer + 1] << 48) | (src[pointer + 2] << 40)
+//				| (src[pointer + 3] << 32) | (src[pointer + 4] << 24) | (src[pointer + 5] << 16)
+//				| (src[pointer + 6] << 8) | (src[pointer + 7]));
 	}
 
 	public static float readFloat(byte[] src, int pointer) {

@@ -1,26 +1,14 @@
 package ssa.cloudplatform.Serialization;
 
-import static ssa.cloudplatform.Serialization.SerializationWriter.*;
+import static ssa.cloudplatform.Serialization.SerializationUtils.*;
 
-public class CField {
+public class CField extends CSCore {
 
 	public static final byte CONTAINER_TYPE = ContinerType.FIELD; // data storage type(field, array, object)
-	public short nameLength;
-	public byte[] name;
 	public byte type; // int - 4 bits
 	public byte[] data;
 
 	private CField() {
-	}
-
-	public String getName() {
-		return new String(name, 0, name.length);
-	}
-
-	public void setName(String name) {
-		assert (name.length() < Short.MAX_VALUE);
-		nameLength = (short) name.length();
-		this.name = name.getBytes();
 	}
 
 	public int getBytes(byte[] dest, int pointer) {

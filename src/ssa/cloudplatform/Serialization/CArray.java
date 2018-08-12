@@ -1,13 +1,10 @@
 package ssa.cloudplatform.Serialization;
 
-import static ssa.cloudplatform.Serialization.SerializationWriter.*;
+import static ssa.cloudplatform.Serialization.SerializationUtils.*;
 
-public class CArray {
+public class CArray extends CSCore {
 
 	public static final byte CONTAINER_TYPE = ContinerType.ARRAY; // data storage type(field, array, object)
-	public short nameLength;
-	public byte[] name;
-	public int size = 1 + 2 + 4 + 1 + 4;
 	public byte type; // element type
 	public int count; // element count
 	public byte[] data;
@@ -21,21 +18,7 @@ public class CArray {
 	private boolean[] booleanData;
 
 	private CArray() {
-	}
-
-	public void setName(String name) {
-		assert (name.length() < Short.MAX_VALUE);
-
-		if (this.name != null)
-			size -= this.name.length;
-
-		nameLength = (short) name.length();
-		this.name = name.getBytes();
-		size += nameLength;
-	}
-
-	public String getName() {
-		return new String(name, 0, nameLength);
+		size += 1 + 1 + 4 ;
 	}
 
 	private void updateSize() {
