@@ -1,11 +1,11 @@
 package ssa.cloudplatform.Serialization;
 
-import static ssa.cloudplatform.Serialization.SerializationWriter.writeBytes;
+import static ssa.cloudplatform.Serialization.SerializationWriter.*;
 
 public class CArray {
 
 	public static final byte CONTAINER_TYPE = ContinerType.ARRAY; // data storage type(field, array, object)
-	public short nameLenght;
+	public short nameLength;
 	public byte[] name;
 	public int size = 1 + 2 + 4 + 1 + 4;
 	public byte type; // element type
@@ -29,18 +29,18 @@ public class CArray {
 		if (this.name != null)
 			size -= this.name.length;
 
-		nameLenght = (short) name.length();
+		nameLength = (short) name.length();
 		this.name = name.getBytes();
-		size += nameLenght;
+		size += nameLength;
 	}
-	
+
 	private void updateSize() {
 		size += getDataSize();
 	}
 
 	public int getBytes(byte[] dest, int pointer) {
 		pointer = writeBytes(dest, pointer, CONTAINER_TYPE);
-		pointer = writeBytes(dest, pointer, nameLenght);
+		pointer = writeBytes(dest, pointer, nameLength);
 		pointer = writeBytes(dest, pointer, name);
 		pointer = writeBytes(dest, pointer, size);
 		pointer = writeBytes(dest, pointer, type);
@@ -179,5 +179,67 @@ public class CArray {
 		array.booleanData = data;
 		array.updateSize();
 		return array;
+	}
+
+	public static CArray Deserialize(byte[] data, int pointer) {
+
+		byte containerType = data[pointer++];
+		assert (containerType == CONTAINER_TYPE);
+
+		CArray result = new CArray();
+
+		result.nameLength = readShort(data, pointer);
+		pointer += 2;
+
+		result.name = readString(data, pointer, result.nameLength).getBytes();
+		pointer += result.nameLength;
+
+		result.size = readInt(data, pointer);
+		pointer += 4;
+
+		result.type = data[pointer++];
+
+		result.count = readInt(data, pointer);
+		pointer += 4;
+
+		switch (result.type) {
+		case Type.BYTE:
+			result.data = new byte[result.count];
+			readBytes(data, pointer, result.data);
+			break;
+		case Type.SHORT:
+			result.shortData = new short[result.count];
+			readShorts(data, pointer, result.shortData);
+			break;
+		case Type.CHAR:
+			result.charData = new char[result.count];
+			readChars(data, pointer, result.charData);
+			break;
+		case Type.INTEGER:
+			result.intData = new int[result.count];
+			readInts(data, pointer, result.intData);
+			break;
+		case Type.LONG:
+			result.longData = new long[result.count];
+			readLongs(data, pointer, result.longData);
+			break;
+		case Type.FLOAT:
+			result.floatData = new float[result.count];
+			readFloats(data, pointer, result.floatData);
+			break;
+		case Type.DOUBLE:
+			result.doubleData = new double[result.count];
+			readDoubles(data, pointer, result.doubleData);
+			break;
+		case Type.BOOLEAN:
+			result.booleanData = new boolean[result.count];
+			readBooleans(data, pointer, result.booleanData);
+			break;
+		}
+		
+		pointer += result.count * Type.getSize(result.type);
+		
+		return result;
+
 	}
 }

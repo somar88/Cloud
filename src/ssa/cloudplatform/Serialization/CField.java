@@ -5,24 +5,27 @@ import static ssa.cloudplatform.Serialization.SerializationWriter.*;
 public class CField {
 
 	public static final byte CONTAINER_TYPE = ContinerType.FIELD; // data storage type(field, array, object)
-	public short nameLenght;
+	public short nameLength;
 	public byte[] name;
 	public byte type; // int - 4 bits
 	public byte[] data;
-	
+
 	private CField() {
-		
+	}
+
+	public String getName() {
+		return new String(name, 0, name.length);
 	}
 
 	public void setName(String name) {
 		assert (name.length() < Short.MAX_VALUE);
-		nameLenght = (short) name.length();
+		nameLength = (short) name.length();
 		this.name = name.getBytes();
 	}
 
 	public int getBytes(byte[] dest, int pointer) {
 		pointer = writeBytes(dest, pointer, CONTAINER_TYPE);
-		pointer = writeBytes(dest, pointer, nameLenght);
+		pointer = writeBytes(dest, pointer, nameLength);
 		pointer = writeBytes(dest, pointer, name);
 		pointer = writeBytes(dest, pointer, type);
 		pointer = writeBytes(dest, pointer, data);
@@ -30,7 +33,7 @@ public class CField {
 	}
 
 	public int getSize() {
-		assert ( data.length == Type.getSize(type)); // to make sure that it is correct
+		assert (data.length == Type.getSize(type)); // to make sure that it is correct
 		return 1 + 2 + name.length + 1 + data.length;
 	}
 
@@ -104,5 +107,24 @@ public class CField {
 		field.data = new byte[Type.getSize(Type.BOOLEAN)];
 		writeBytes(field.data, 0, value);
 		return field;
+	}
+
+	public static CField Deserialize(byte[] data, int pointer) {
+		byte containerType = data[pointer++];
+		assert (containerType == CONTAINER_TYPE);
+
+		CField result = new CField();
+
+		result.nameLength = readShort(data, pointer);
+		pointer += 2;
+
+		result.name = readString(data, pointer, result.nameLength).getBytes();
+		pointer += result.nameLength;
+
+		result.type = data[pointer++];
+		result.data = new byte[Type.getSize(result.type)];
+		readBytes(data, pointer, result.data);
+		pointer += Type.getSize(result.type);
+		return result;
 	}
 }
