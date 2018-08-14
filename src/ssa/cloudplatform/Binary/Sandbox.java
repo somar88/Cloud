@@ -104,13 +104,15 @@ public class Sandbox {
 	public void play() {
 
 		Entity mob = new Entity();
-		Player player = new Player("Somar", 40, 28);
+		Player player = new Player("Wais", 40, 28);
+		Player p2 = new Player("Somar", 15, 0);
 
 		Level level = new Level("res/level.lvl");
 		level.add(mob);
 		level.add(player);
+		level.add(p2);
 
-		level.save("level.cdb");
+		level.save("levelWais.cdb");
 
 	}
 
