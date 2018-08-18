@@ -48,6 +48,30 @@ public class CObject extends CSCore {
 		return size;
 	}
 
+	public CField findField(String name) {
+		for (CField field : fields) {
+			if (field.getName().equals(name))
+				return field;
+		}
+		return null;
+	}
+
+	public CString findString(String name) {
+		for (CString string : strings) {
+			if (string.getName().equals(name))
+				return string;
+		}
+		return null;
+	}
+
+	public CArray findArray(String name) {
+		for (CArray array : arrays) {
+			if (array.getName().equals(name))
+				return array;
+		}
+		return null;
+	}
+
 	public int getBytes(byte[] dest, int pointer) {
 		pointer = writeBytes(dest, pointer, CONTAINER_TYPE);
 		pointer = writeBytes(dest, pointer, nameLength);

@@ -93,6 +93,14 @@ public class CDatabase extends CSCore{
 
 		return result;
 	}
+	
+	public CObject findObject(String name) {
+		for ( CObject object: objects) {
+			if ( object.getName().equals(name))
+				return object;
+		}
+		return null;
+	}
 
 	public static CDatabase DeseializeFromFile(String path) {
 		byte[] buffer = null;

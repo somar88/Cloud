@@ -10,6 +10,38 @@ public class CField extends CSCore {
 
 	private CField() {
 	}
+	
+	public byte getByte() {
+		return data[0]; 
+	}
+	
+	public short getShort() {
+		return readShort(data, 0); 
+	}
+	
+	public char getChar() {
+		return readChar(data, 0); 
+	}
+	
+	public int getInt() {
+		return readInt(data, 0); 
+	}
+	
+	public long getLong() {
+		return readLong(data, 0); 
+	}
+	
+	public double getDouble() {
+		return readDouble(data, 0); 
+	}
+	
+	public float getFloat() {
+		return readFloat(data, 0); 
+	}
+	
+	public boolean getBoolean() {
+		return readBoolean(data, 0); 
+	}
 
 	public int getBytes(byte[] dest, int pointer) {
 		pointer = writeBytes(dest, pointer, CONTAINER_TYPE);
